@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+            crossorigin="anonymous"
+        />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>View Contact</title>
+        <link rel="stylesheet" href="nav.css" />
+    </head>
+    <body onload="displayAllContact()">
+        <nav>
+            <a href="./index.html">Add Contact</a>
+            <a href="./contact.html">View Contact</a>
+        </nav>
+        <table border="1" id="contactPage">
+            <tr>
+                <th>S/N</th>
+                <th>Full Name</th>
+                <th>Phone No</th>
+                <th>View</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Ola Yinka</td>
+                <td>0816170</td>
+                <td><button>View</button></td>
+            </tr>
+        </table>
+
+        <!-- Button trigger modal -->
+        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Launch static backdrop modal
+</button> -->
+
+        <!-- Modal -->
+        <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+        >
+            <div
+                class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+            >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                            Edit Contact
+                        </h1>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body" id="contactDiv">
+                        First Name
+                        <input type="text" value="" id="contactFirstName" />
+                        <br />
+                        Last Name
+                        <input
+                            type="text"
+                            value="Olayinka"
+                            id="contactLastName"
+                        />
+                        <br />
+                        Company
+                        <input
+                            type="text"
+                            value="Olayinka"
+                            id="contactCompany"
+                        />
+                        <br />
+                        Phone
+                        <input type="text" value="Olayinka" id="contactPhone" />
+                        <br />
+                        Email
+                        <input type="text" value="Olayinka" id="contactEmail" />
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="editButton"
+                        >
+                            Edit Contact
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button> -->
+
+        <!-- Modal -->
+        <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1
+                            class="modal-title fs-5 text-danger"
+                            id="exampleModalLabel"
+                        >
+                            Warning!!!
+                        </h1>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this contact?
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            id="confirmDelete"
+                            data-bs-dismiss="modal"
+                        >
+                            Save changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        let allContact;
+        if (localStorage.getItem("allContact")) {
+            allContact = JSON.parse(localStorage.getItem("allContact"));
+            console.log(allContact[0]);
+        }
+        function displayAllContact() {
+            let contactPage = document.getElementById("contactPage");
+            contactPage.innerHTML = `
+                                <table border="1" id="contactPage">
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Full Name</th>
+                                        <th>Phone No</th>
+                                        <th>View</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </table>
+                                `;
+            for (let i = 0; i < allContact.length; i++) {
+                contactPage.innerHTML += `
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td>${allContact[i].firstName} ${
+                    allContact[i].lastName
+                }</td>
+                                <td>${allContact[i].phone}</td>
+                                <td><button onclick="showContact(${i})" data-bs-toggle="modal" data-bs-target="#staticBackdrop">View</button></td>
+                                <td><button onclick="jjjjj(${i})" id="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button></td>
+                            </tr>
+                            `;
+            }
+        }
+
+        function showContact(index) {
+            console.log(index);
+            let contactDiv = document.getElementById("contactDiv");
+            let editButton = document.getElementById("editButton");
+            contactDiv.innerHTML = `
+        First Name <input type="text" value="${allContact[index].firstName}" id="contactFirstName">
+                                <br>
+                                Last Name <input type="text" value="${allContact[index].lastName}" id="contactLastName">
+                                <br>
+                                Company <input type="text" value="${allContact[index].company}" id="contactCompany">
+                                <br>
+                                Phone <input type="text" value="${allContact[index].phone}" id="contactPhone">
+                                <br>
+                                Email <input type="text" value="${allContact[index].email}" id="contactEmail">
+                                `;
+            editButton.innerHTML = `<button type="button" class="btn btn-primary" id="editButton" data-bs-dismiss="modal" onclick="shout(${index})">Edit Contact</button>`;
+        }
+
+        function shout(index) {
+            contactFirstName = document.getElementById("contactFirstName");
+            contactLastName = document.getElementById("contactLastName");
+            contactCompany = document.getElementById("contactCompany");
+            contactPhone = document.getElementById("contactPhone");
+            contactEmail = document.getElementById("contactEmail");
+
+            let contactDetails = {
+                firstName: contactFirstName.value,
+                lastName: contactLastName.value,
+                company: contactCompany.value,
+                phone: contactPhone.value,
+                email: contactEmail.value,
+            };
+            console.log(contactDetails);
+            allContact.splice(index, 1, contactDetails);
+            localStorage.setItem("allContact", JSON.stringify(allContact));
+            displayAllContact();
+        }
+
+        function jjjjj(index) {
+            let confirmDelete = document.getElementById("confirmDelete");
+            confirmDelete.innerHTML = `<button type="button" onclick="deleteContact(${index})" class="btn btn-danger" id="confirmDelete" data-bs-dismiss="modal">Delete</button>`;
+        }
+
+        function deleteContact(index) {
+            allContact.splice(index, 1);
+            localStorage.setItem("allContact", JSON.stringify(allContact));
+            displayAllContact();
+        }
+    </script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"
+    ></script>
+</html>

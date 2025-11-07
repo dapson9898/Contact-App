@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add Contact</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <nav>
+            <a href="./index.html">Add Contact</a>
+            <a href="./contact.html">View Contact</a>
+        </nav>
+        <div>
+            <input type="text" placeholder="First name" id="contactFirstName" />
+            <input type="text" placeholder="Last name" id="contactLastName" />
+            <input type="text" placeholder="Company" id="contactCompany" />
+
+            <input
+                type="text"
+                max="11"
+                min="11"
+                id="contactPhone"
+                placeholder="Phone"
+                required
+            />
+            <input type="email" id="contactEmail" placeholder="Email" />
+            <input type="button" onclick="addContact()" value="Save Contact" />
+        </div>
+    </body>
+    <script>
+        let allContact;
+
+        if (localStorage.getItem("allContact")) {
+            allContact = JSON.parse(localStorage.getItem("allContact"));
+        } else {
+            allContact = [];
+        }
+
+        function addContact() {
+            contactFirstName = document.getElementById("contactFirstName");
+            contactLastName = document.getElementById("contactLastName");
+            contactCompany = document.getElementById("contactCompany");
+            contactPhone = document.getElementById("contactPhone");
+            contactEmail = document.getElementById("contactEmail");
+
+            if (
+                (contactFirstName.value == "" && contactLastName.value == "") ||
+                contactPhone.value == ""
+            ) {
+                alert("Enter contact name and phone no.");
+            } else {
+                let contactDetails = {
+                    firstName: contactFirstName.value,
+                    lastName: contactLastName.value,
+                    company: contactCompany.value,
+                    phone: contactPhone.value,
+                    email: contactEmail.value,
+                };
+                console.log(contactDetails);
+                allContact.push(contactDetails);
+                localStorage.setItem("allContact", JSON.stringify(allContact));
+                alert("Contact Saved Successfully.");
+
+                contactFirstName.value = "";
+                contactLastName.value = "";
+                contactCompany.value = "";
+                contactPhone.value = "";
+                contactEmail.value = "";
+            }
+        }
+    </script>
+</html>
